@@ -8,7 +8,8 @@
 
     <include
         android:id="@+id/toolBar"
-        layout="@layout/toolbar_layout"></include>
+        layout="@layout/toolbar_layout"
+        ></include>>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerDrinks"

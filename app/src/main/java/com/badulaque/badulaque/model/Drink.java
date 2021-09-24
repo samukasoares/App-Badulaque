@@ -1,7 +1,10 @@
 package com.badulaque.badulaque.model;
 
-public class Drink {
+import java.io.Serializable;
 
+public class Drink implements Serializable {
+
+    private Long id;
     private String nomeDrink;
     private String custoDrink;
     private String pacote;
@@ -10,11 +13,16 @@ public class Drink {
 
     }
 
-    public Drink(String nomeDrink, String custoDrink, String pacote) {
+    public Drink(Long id,String nomeDrink, String custoDrink, String pacote) {
         this.nomeDrink = nomeDrink;
         this.custoDrink = custoDrink;
         this.pacote = pacote;
+        this.id = id;
     }
+
+    public Long getId() { return id;}
+
+    public void setId(Long id) { this.id = id; }
 
     public String getNomeDrink() {
         return nomeDrink;

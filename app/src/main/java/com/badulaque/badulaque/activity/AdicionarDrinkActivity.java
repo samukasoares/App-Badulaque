@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.badulaque.badulaque.R;
+
 public class AdicionarDrinkActivity extends AppCompatActivity {
 
     @Override

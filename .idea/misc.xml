@@ -3,6 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/App Badulaque/BadulaqueEnterprise/app/src/main/res/drawable/ic_adicionar.xml" value="0.3648148148148148" />
+        <entry key="..\:/Android/App Badulaque/BadulaqueEnterprise/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.3648148148148148" />
+        <entry key="..\:/Android/App Badulaque/BadulaqueEnterprise/app/src/main/res/layout/activity_adicionar_drink.xml" value="0.300561797752809" />
+        <entry key="..\:/Android/App Badulaque/BadulaqueEnterprise/app/src/main/res/layout/activity_bardulaque.xml" value="0.33505154639175255" />
+        <entry key="..\:/Android/App Badulaque/BadulaqueEnterprise/app/src/main/res/layout/activity_main.xml" value="0.35989583333333336" />
+        <entry key="..\:/Android/App Badulaque/BadulaqueEnterprise/app/src/main/res/layout/activity_orcamento.xml" value="0.35989583333333336" />
+        <entry key="..\:/Android/App Badulaque/BadulaqueEnterprise/app/src/main/res/layout/toolbar_layout.xml" value="0.35989583333333336" />
+        <entry key="..\:/Android/App Badulaque/BadulaqueEnterprise/app/src/main/res/menu/add_drink_menu.xml" value="0.35989583333333336" />
+        <entry key="..\:/Android/App Badulaque/BadulaqueEnterprise/app/src/main/res/menu/drawer_menu.xml" value="0.35989583333333336" />
+        <entry key="..\:/Android/App Badulaque/BadulaqueEnterprise/app/src/main/res/menu/menu_adicionarDrink.xml" value="0.25" />
+        <entry key="..\:/Android/App Badulaque/BadulaqueEnterprise/app/src/main/res/menu/menu_adicionardrink.xml" value="0.35989583333333336" />
+        <entry key="..\:/Android/App Badulaque/BadulaqueEnterprise/app/src/main/res/menu/menu_bardulaque.xml" value="0.35989583333333336" />
         <entry key="..\:/Android/App Badulaque/Código Fonte/app/src/main/res/layout/activity_adicionar_drink.xml" value="0.35989583333333336" />
         <entry key="..\:/Android/App Badulaque/Código Fonte/app/src/main/res/layout/activity_bardulaque.xml" value="0.35989583333333336" />
         <entry key="..\:/Android/App Badulaque/Código Fonte/app/src/main/res/layout/activity_main.xml" value="0.37135416666666665" />
