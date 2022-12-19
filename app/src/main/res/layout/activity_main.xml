@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    tools:layout_editor_absoluteX="3dp"
+    tools:layout_editor_absoluteY="1dp">
+
+    <TextView
+        android:id="@+id/textValorEstrutura"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="Valor Estrutura:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textBronze"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Bronze:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textCardapios" />
+
+    <TextView
+        android:id="@+id/textPrata"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Prata:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textBronze" />
+
+    <TextView
+        android:id="@+id/textOuro"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Ouro:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textPrata" />
+
+    <TextView
+        android:id="@+id/textMineira"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="0dp"
+        android:text="Mineira:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textOuro" />
+
+    <TextView
+        android:id="@+id/textChurrasco"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="0dp"
+        android:text="Churrasco:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textCoquetel" />
+
+    <TextView
+        android:id="@+id/textBoteco"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Boteco:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textChurrasco" />
+
+    <TextView
+        android:id="@+id/textBar"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Bar:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textBoteco" />
+
+    <TextView
+        android:id="@+id/textCabine"
+        android:layout_width="120sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Cabine:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textBar" />
+
+    <TextView
+        android:id="@+id/textCoquetel"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Coquetel:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textMineira" />
+
+    <TextView
+        android:id="@+id/textCardapios"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="Cardápios"
+        android:textAlignment="textStart"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textValorEstrutura" />
+
+    <TextView
+        android:id="@+id/textDataExtenso"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textDataEvento"
+        app:layout_constraintTop_toBottomOf="@+id/editTextValorCabine" />
+
+    <TextView
+        android:id="@+id/editTextMeses"
+        android:layout_width="50sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textMeses"
+        app:layout_constraintTop_toBottomOf="@+id/textDataExtenso" />
+
+    <EditText
+        android:id="@+id/editTextConvidados"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:enabled="true"
+        android:inputType="textShortMessage|number"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textConvidados"
+        app:layout_constraintTop_toBottomOf="@+id/editTextMeses" />
+
+    <TextView
+        android:id="@+id/textConvidados"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="# de Convidados:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textMeses" />
+
+    <TextView
+        android:id="@+id/textMeses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="1dp"
+        android:text="Meses até o evento:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textData" />
+
+    <ImageView
+        android:id="@+id/btnCalendar"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textCabine"
+        app:srcCompat="@drawable/calendario" />
+
+    <TextView
+        android:id="@+id/textData"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="Data:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/btnCalendar"
+        app:layout_constraintTop_toBottomOf="@+id/textCabine" />
+
+    <CheckBox
+        android:id="@+id/checkBoxCerveja"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Cerveja"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textConvidados" />
+
+    <CheckBox
+        android:id="@+id/checkBoxCabine"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Cabine/Plataforma"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxChopp" />
+
+    <CheckBox
+        android:id="@+id/checkBoxCabine2"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Bartender"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxCabine" />
+
+    <CheckBox
+        android:id="@+id/checkBoxChopp"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Chopp"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxCerveja" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxCerveja"
+        app:layout_constraintTop_toBottomOf="@+id/editTextConvidados" />
+
+    <Button
+        android:id="@+id/btnConfirma"
+        android:layout_width="100sp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:onClick="botaoConfirmar"
+        android:text="CONFIRMA"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/editTextValorEstrutura"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="numberDecimal"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textValorEstrutura"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/editTextValorBronze"
+        android:layout_width="70sp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textBronze"
+        app:layout_constraintTop_toBottomOf="@+id/textCardapios" />
+
+    <TextView
+        android:id="@+id/editTextValorPrata"
+        android:layout_width="70sp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textPrata"
+        app:layout_constraintTop_toBottomOf="@+id/editTextValorBronze" />
+
+    <TextView
+        android:id="@+id/editTextValorOuro"
+        android:layout_width="70sp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textOuro"
+        app:layout_constraintTop_toBottomOf="@+id/editTextValorPrata" />
+
+    <TextView
+        android:id="@+id/editTextValorMineira"
+        android:layout_width="70sp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textMineira"
+        app:layout_constraintTop_toBottomOf="@+id/editTextValorOuro" />
+
+    <TextView
+        android:id="@+id/editTextValorCoquetel"
+        android:layout_width="70sp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textCoquetel"
+        app:layout_constraintTop_toBottomOf="@+id/editTextValorMineira" />
+
+    <TextView
+        android:id="@+id/editTextValorChurrasco"
+        android:layout_width="70sp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textChurrasco"
+        app:layout_constraintTop_toBottomOf="@+id/editTextValorCoquetel" />
+
+    <TextView
+        android:id="@+id/editTextValorBoteco"
+        android:layout_width="70sp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textBoteco"
+        app:layout_constraintTop_toBottomOf="@+id/editTextValorChurrasco" />
+
+    <TextView
+        android:id="@+id/editTextValorBar"
+        android:layout_width="70sp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textBar"
+        app:layout_constraintTop_toBottomOf="@+id/editTextValorBoteco" />
+
+    <TextView
+        android:id="@+id/editTextValorCabine"
+        android:layout_width="70sp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textCabine"
+        app:layout_constraintTop_toBottomOf="@+id/editTextValorBar" />
+
+    <ImageView
+        android:id="@+id/btnZerarOpcoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="25dp"
+        android:onClick="btnLimparCampos"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnConfirma"
+        app:srcCompat="@drawable/zerar" />
+
+    <TextView
+        android:id="@+id/textDataEvento"
+        android:layout_width="110dp"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textData"
+        app:layout_constraintTop_toBottomOf="@+id/textCabine" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
