@@ -2,9 +2,15 @@
 <resources>
 
     <string-array name="tiposCerveja">
-        <item>Brahma/Skol</item>
-        <item>Original</item>
-        <item>Heineken</item>
+        <item>"Brahma/Skol"</item>
+        <item>"Original"</item>
+        <item>"Heineken"</item>
+    </string-array>
+
+    <string-array name="packsBar">
+        <item>"Bronze"</item>
+        <item>"Prata"</item>
+        <item>"Ouro"</item>
     </string-array>
 
 

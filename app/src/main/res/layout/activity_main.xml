@@ -111,6 +111,18 @@
         app:layout_constraintTop_toBottomOf="@+id/textBar" />
 
     <TextView
+        android:id="@+id/editTextValorProposta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="15dp"
+        android:text="Valor Proposta:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxCerimonia" />
+
+    <TextView
         android:id="@+id/textCoquetel"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
@@ -139,8 +151,7 @@
     <TextView
         android:id="@+id/textDataExtenso"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_height="28dp"
         android:layout_marginEnd="5dp"
         android:ems="10"
         android:enabled="false"
@@ -157,7 +168,6 @@
         android:layout_width="50sp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="5dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="textPersonName"
@@ -242,7 +252,7 @@
         app:layout_constraintTop_toBottomOf="@+id/checkBoxChopp" />
 
     <CheckBox
-        android:id="@+id/checkBoxCabine2"
+        android:id="@+id/checkBoxBartender"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:text="Bartender"
@@ -250,6 +260,16 @@
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBoxCabine" />
+
+    <CheckBox
+        android:id="@+id/checkBoxCerimonia"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Cerimônia"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxBartender" />
 
     <CheckBox
         android:id="@+id/checkBoxChopp"
@@ -272,6 +292,18 @@
         app:layout_constraintStart_toEndOf="@+id/checkBoxCerveja"
         app:layout_constraintTop_toBottomOf="@+id/editTextConvidados" />
 
+    <Spinner
+        android:id="@+id/spinnerBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:clickable="true"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxCerveja"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
     <Button
         android:id="@+id/btnConfirma"
         android:layout_width="100sp"
@@ -286,114 +318,140 @@
 
     <TextView
         android:id="@+id/editTextValorEstrutura"
-        android:layout_width="0dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="numberDecimal"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textValorEstrutura"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/editTextValorBronze"
-        android:layout_width="70sp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="text"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textBronze"
         app:layout_constraintTop_toBottomOf="@+id/textCardapios" />
 
     <TextView
         android:id="@+id/editTextValorPrata"
-        android:layout_width="70sp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="text"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textPrata"
         app:layout_constraintTop_toBottomOf="@+id/editTextValorBronze" />
 
     <TextView
         android:id="@+id/editTextValorOuro"
-        android:layout_width="70sp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="text"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textOuro"
         app:layout_constraintTop_toBottomOf="@+id/editTextValorPrata" />
 
     <TextView
         android:id="@+id/editTextValorMineira"
-        android:layout_width="70sp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="text"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textMineira"
         app:layout_constraintTop_toBottomOf="@+id/editTextValorOuro" />
 
     <TextView
         android:id="@+id/editTextValorCoquetel"
-        android:layout_width="70sp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="text"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textCoquetel"
         app:layout_constraintTop_toBottomOf="@+id/editTextValorMineira" />
 
     <TextView
         android:id="@+id/editTextValorChurrasco"
-        android:layout_width="70sp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="text"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textChurrasco"
         app:layout_constraintTop_toBottomOf="@+id/editTextValorCoquetel" />
 
     <TextView
         android:id="@+id/editTextValorBoteco"
-        android:layout_width="70sp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="text"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textBoteco"
         app:layout_constraintTop_toBottomOf="@+id/editTextValorChurrasco" />
 
     <TextView
         android:id="@+id/editTextValorBar"
-        android:layout_width="70sp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="text"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textBar"
         app:layout_constraintTop_toBottomOf="@+id/editTextValorBoteco" />
 
     <TextView
         android:id="@+id/editTextValorCabine"
-        android:layout_width="70sp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:ems="10"
         android:enabled="false"
         android:inputType="text"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textCabine"
         app:layout_constraintTop_toBottomOf="@+id/editTextValorBar" />
 
@@ -411,9 +469,10 @@
     <TextView
         android:id="@+id/textDataEvento"
         android:layout_width="110dp"
-        android:textColor="@color/black"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:enabled="false"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/textData"
         app:layout_constraintTop_toBottomOf="@+id/textCabine" />
