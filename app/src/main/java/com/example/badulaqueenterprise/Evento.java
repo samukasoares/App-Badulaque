@@ -9,24 +9,15 @@ import java.util.Date;
 
 public class Evento {
 
-    int NumConvidados, MesesAteEvento;
+    double NumConvidados, MesesAteEvento;
 
-    public Evento(int NumConvidados, int MesesAteEvento) {
+    public Evento(double NumConvidados, double MesesAteEvento) {
         this.NumConvidados = NumConvidados;
-        this.MesesAteEvento = NumConvidados;
+        this.MesesAteEvento = MesesAteEvento;
     }
 
     public double fIPCA (){
-        double fIPCA = 0;
-        double Y = MesesAteEvento / MainActivity.K_PERIODO;
-        fIPCA = (Math.pow(1 + MainActivity.K_IPCA / 100, Y ))- 1;
-
-        if (fIPCA<0){
-            fIPCA = 0;
-        } else{
-            fIPCA = fIPCA;
-        }
-        return fIPCA;
+        return (Math.pow((1 + (MainActivity.K_IPCA /100)), MesesAteEvento / MainActivity.K_PERIODO)-1);
     }
 
     public double fMargemContr (){
@@ -34,7 +25,7 @@ public class Evento {
     }
 
     public int fNumeroGarcom (){
-        return NumConvidados/20;
+        return (int)NumConvidados/20;
     }
 
     public int fNumAuxCozinha (){
@@ -113,7 +104,6 @@ public class Evento {
         return vCustoBar;
     }
 
-
     public double fCustoBar(CheckBox bartender, Spinner packBar){
         double custo = 0;
         String pacoteBar = packBar.getSelectedItem().toString();
@@ -190,11 +180,11 @@ public class Evento {
     }
 
     public double fValorRetirada(){
-        return Math.round(13.33 * NumConvidados + 1666.7);
+        return metodos.ArredondaCentena(13.33 * NumConvidados + 1666.7);
     }
 
     public double fCustoVariavel(){
-        return (MainActivity.K_Lavanderia + MainActivity.K_GLP);
+        return (MainActivity.K_Lavanderia + MainActivity.K_GLP) * NumConvidados;
     }
 
     public double fCustoCerimonia(CheckBox cerimonia){
@@ -208,9 +198,9 @@ public class Evento {
         return custo;
     }
 
-    public double descontoDiaSemana (Calendar evento){
+    public double descontoDiaSemana (int dia){
         double desconto = 0.8;
-        String diaEvento = MainActivity.NomeDoMes(evento.DAY_OF_WEEK, 0);
+        String diaEvento = MainActivity.DiaDaSemana(dia, 0);
 
         switch (diaEvento){
             case "sábado":

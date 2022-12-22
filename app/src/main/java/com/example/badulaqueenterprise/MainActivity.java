@@ -17,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -59,13 +61,13 @@ public class MainActivity extends AppCompatActivity {
     final public static int K_PERDAS = 10;
     final public static int K_CERVEJA = 6;
 
-    final public static double custoCardapioBronze = 60;
-    final public static double custoCardapioPrata = 120;
-    final public static double custoCardapioOuro = 0;
-    final public static double custoCardapioChurrasco = 0;
-    final public static double custoCardapioMineira = 0;
-    final public static double custoCardapioCoquetel = 0;
-    final public static double custoCardapioBoteco = 0;
+    final public static double custoCardapioBronze = 39.34;
+    final public static double custoCardapioPrata = 52.82;
+    final public static double custoCardapioOuro = 62.72;
+    final public static double custoCardapioChurrasco = 54.76;
+    final public static double custoCardapioMineira = 47.83;
+    final public static double custoCardapioCoquetel = 57.31;
+    final public static double custoCardapioBoteco = 35.43;
 
 
     //ESPAÇO
@@ -94,9 +96,9 @@ public class MainActivity extends AppCompatActivity {
     final public static int K_PACKSEMALCOOL = 15;
     final public static int K_DRINKPP = 2;
     final public static int K_BARMAN = 150;
-    final public static double K_CUSTOBRONZE = 7.64;
-    final public static double K_CUSTOPRATA = 9.27;
-    final public static double K_CUSTOOURO = 11.76;
+    final public static double K_CUSTOBRONZE = 20;
+    final public static double K_CUSTOPRATA = 24;
+    final public static double K_CUSTOOURO = 28;
     final public static double K_CERVEJA1 = 9.911;
     final public static double K_CERVEJA2 = 11.339;
     final public static double K_CERVEJA3 = 14.161;
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     //Financeiro
     final public static int K_FUTURA = 25;
     final public static int K_PERIODO = 12;
-    final public static int K_IPCA = 9;
+    final public static double K_IPCA = 9;
 
     //Formatações de Data
     SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     DatePickerDialog dpd;
     Calendar c;
     ImageView btnCal;
-    public TextView textoData, dataExtenso , meses, valorEstrutura, valorBronze, valorPrata, valorOuro, valorMineira, valorCoquetel, valorChurrasco, valorBoteco ;
+    public TextView textoData, dataExtenso , meses, valorEstrutura, valorBronze, valorPrata, valorOuro, valorMineira, valorCoquetel, valorChurrasco, valorBoteco, valorBar, valorCabine ;
     EditText numConvidados;
     Date dt;
     String dataEvento;
@@ -140,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
         valorCoquetel.setText("");
         valorChurrasco.setText("");
         valorBoteco.setText("");
+        valorBar.setText("");
+        valorCabine.setText("");
     }
 
     public void btnLimparCampos (View view){
@@ -164,6 +168,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    int ds;  //Dia da Semana do Evento (0-6)
+
     public String dataPorExtenso(String data) throws ParseException {
         dt = formatoData.parse(data);
         int d = dt.getDate();
@@ -171,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         int a = dt.getYear() + 1900;
 
         Calendar date = new GregorianCalendar(a, m - 1, d);
-        int ds = date.get(Calendar.DAY_OF_WEEK);
+        ds = date.get(Calendar.DAY_OF_WEEK);
 
         return (DiaDaSemana(ds, 0) + ", " + d + " de " + NomeDoMes(m, 0) + " de " + a);
     }
@@ -205,13 +212,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Ação do botão confirmar
-    @SuppressLint("SetTextI18n")
     public void botaoConfirmar (View view){
         boolean camposValidados = validarCampos();
 
         if(camposValidados){
-            int nc = Integer.parseInt(numConvidados.getText().toString()); //Numero Convidados
-            int meses = (int) nm;
+            double nc = Integer.parseInt(numConvidados.getText().toString()); //Numero Convidados
+            double meses = (double) nm;
 
             Evento evento = new Evento(nc,meses);
             double valorIPCA = evento.fIPCA();
@@ -219,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
             double valorLimpeza = faxina;
             double valorSupervisão = K_SUPERVISAO;
             double valorAjudante = K_AJUDANTE;
-            int numGarcom = evento.fNumeroGarcom();
+            double numGarcom = evento.fNumeroGarcom();
             double valorGarcom = numGarcom * K_GARCOM;
             int valorKids = K_KIDS;
 
@@ -237,68 +243,71 @@ public class MainActivity extends AppCompatActivity {
             double valorCerimonia = evento.fCustoCerimonia(cerimonia);
 
 
-            //Cardapio bronze = new Cardapio("Bronze", custoCardapioBronze);
-           //bronze.fCustoBuffet(valorCustoVariavel,valorTotalCozinha,valorCustoCervejaChopp,nc);
-
-            String[] cardapioNome = {"Bronze", "Prata", "Ouro", "Churrasco", "Mineira", "Coquetel", "Boteco"};
             double[] cardapioPreco = {custoCardapioBronze,custoCardapioPrata,custoCardapioOuro,custoCardapioChurrasco,custoCardapioMineira,custoCardapioCoquetel,custoCardapioBoteco};
 
-            double valorEspaco = 0;
+            double vEspacoFinal =0;
             double valorPPFinal;
+
+            double valoroBar = (metodos.ArredondaCentena(evento.fCustoBar(bartender, spinnerPackBar)/(1-valorIPCA)));
+
+            //Calcula preço Por Pessoa de Todos os Cardapios
             for (int i = 0; i<cardapioPreco.length; i++){
-                double valorCustoBuffet = valorCustoVariavel + valorTotalCozinha + (cardapioPreco[i] + valorCustoCervejaChopp) * nc;
-                double valorCustoProposta = (valorCustoEspaco + cardapioPreco[i])/1-valorIPCA;
-                double valorCustoBar = ((evento.fCustoBar(bartender, spinnerPackBar) + evento.fCustoMoBar(bartender))/(1-valorIPCA));
-                double valorCustoContrato = (valorCustoBar + valorCustoProposta)/(1-valorIPCA);
-                double margc = 1 - valorMargemContr;
-                double valorEspacoInicial = valorCustoEspaco / margc;
-                double valorBuffetInicial = valorCustoBuffet / margc + valorRetirada;
-                double valorPPInicial = valorBuffetInicial/nc;
+                double valorCustoBuffet = (valorCustoVariavel + valorTotalCozinha + (cardapioPreco[i] + valorCustoCervejaChopp) * nc)/(1-valorMargemContr);
+                //double valorEspacoInicial = valorCustoEspaco / margc;
+                double valorBuffetInicial = valorCustoBuffet + valorRetirada;
                 double vppInicial = valorBuffetInicial / nc;
+                double valorEspaco =0;
+
                 double vpp_inc;
                 if(meses>0){
-                    vpp_inc = vppInicial / (1-valorIPCA) - vppInicial;
+                    vpp_inc = (vppInicial / (1-valorIPCA)) - vppInicial;
                 }else{
                     vpp_inc = 0;
                 }
-                double desconto = evento.descontoDiaSemana(c);
+                double desconto = evento.descontoDiaSemana(ds);
+
 
                 if(nc >= 150){
                     valorEspaco = K_ESPACO;
                 }else if(nc>=100){
                     valorEspaco = 5800;
-                }else{
-                    valorEspaco = 5000;
+                }else if(nc<100){
+                    valorEspaco =5000;
                 }
-                double ved = Math.round(valorEspaco * desconto);
-                double vpp_dec = (ved - valorCustoEspaco) / nc;
-                valorPPFinal = Math.round(valorPPInicial + vpp_inc - vpp_dec);
+
+                vEspacoFinal = Math.round(valorEspaco * desconto); //Considerando Desconto de Dia
+                double vpp_dec = (vEspacoFinal - valorCustoEspaco) / nc;
+
+                valorPPFinal = Math.ceil(vppInicial + vpp_inc - vpp_dec);
 
                 switch (i){
                     case 0:
-                        valorBronze.setText("R$" + Double.toString(valorPPFinal));
+                        valorBronze.setText("R$" + Double.toString(valorPPFinal) + "0");
                         break;
                     case 1:
-                        valorPrata.setText("R$" + Double.toString(valorPPFinal));
+                        valorPrata.setText("R$" + Double.toString(valorPPFinal) + "0");
                         break;
                     case 2:
-                        valorOuro.setText("R$" + Double.toString(valorPPFinal));
+                        valorOuro.setText("R$" + Double.toString(valorPPFinal) + "0");
                         break;
                     case 3:
-                        valorChurrasco.setText("R$" + Double.toString(valorPPFinal));
+                        valorChurrasco.setText("R$" + Double.toString(valorPPFinal) + "0");
                         break;
                     case 4:
-                        valorMineira.setText("R$" + Double.toString(valorPPFinal));
+                        valorMineira.setText("R$" + Double.toString(valorPPFinal) + "0");
                         break;
                     case 5:
-                        valorCoquetel.setText("R$" + Double.toString(valorPPFinal));
+                        valorCoquetel.setText("R$" + Double.toString(valorPPFinal) + "0");
                         break;
                     case 6:
-                        valorBoteco.setText("R$" + Double.toString(valorPPFinal));
+                        valorBoteco.setText("R$" + Double.toString(valorPPFinal) + "0");
                         break;
                 }
             }
-            valorEstrutura.setText(Double.toString(valorEspaco));
+
+            valorEstrutura.setText("R$" + Double.toString(vEspacoFinal + valorCerimonia) + "0"); //Valor Estrutura
+            valorBar.setText("R$" + valoroBar + "0"); //Valor Bar
+            //Valor Cabine
 
         }else{
             Toast.makeText(getApplicationContext(), "Preencher Campos!", Toast.LENGTH_SHORT).show();
@@ -310,7 +319,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         //Iniciar variáveis
         textoData = (TextView) findViewById(R.id.textDataEvento);
@@ -330,6 +338,8 @@ public class MainActivity extends AppCompatActivity {
         chopp = (CheckBox) findViewById(R.id.checkBoxChopp);
         bartender = (CheckBox) findViewById(R.id.checkBoxBartender);
         cerimonia = (CheckBox) findViewById(R.id.checkBoxCerimonia);
+        valorBar = (TextView) findViewById(R.id.editTextValorBar);
+        valorCabine = (TextView) findViewById(R.id.editTextValorCabine);
 
         lblBronze = (TextView) findViewById(R.id.textBronze);
         lblPrata = (TextView) findViewById(R.id.textPrata);
@@ -349,8 +359,6 @@ public class MainActivity extends AppCompatActivity {
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPackBar.setAdapter(adapter1);
         spinnerPackBar.setEnabled(false);
-
-
 
         //Listener para botão do calendário
         btnCal.setOnClickListener(new View.OnClickListener() {
@@ -384,14 +392,9 @@ public class MainActivity extends AppCompatActivity {
 
         textoData.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void afterTextChanged(Editable editable) {
                 dataEvento = textoData.getText().toString();
@@ -421,6 +424,7 @@ public class MainActivity extends AppCompatActivity {
         }
         );
 
+        //Listener Opção Cerveja
         cerveja.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -434,6 +438,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Listener Opção Chopp
         chopp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -447,6 +452,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Listener Opção Bar
         bartender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
