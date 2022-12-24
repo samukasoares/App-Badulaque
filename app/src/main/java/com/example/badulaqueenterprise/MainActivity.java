@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,12 +33,8 @@ import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    //Data Atual
-    Date dataHoraAtual = new Date();
-
     //CUSTOS
     final public static int faxina = 120;
-
 
     //ESTIMATIVAS
     final public static int K_EVENTOS = 35;
@@ -49,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
     final public static int K_ECAD = 9600;
     final public static int K_INFORMATICA = 2400;
     final public static int K_CPFL = 28000;
-    final public static int K_SAM = 12000;
-
-
 
     //BUFFET
     final public static int K_COZINHEIRA = 300;
@@ -69,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
     final public static double custoCardapioCoquetel = 57.31;
     final public static double custoCardapioBoteco = 35.43;
 
+    final public static double K_CERVEJA1 = 9.911;
+    final public static double K_CERVEJA2 = 11.339;
+    final public static double K_CERVEJA3 = 14.161;
+    final public static double K_CHOPP = 12.113;
 
     //ESPAÇO
     final public static int K_ESPACO = 6400;
@@ -88,46 +88,90 @@ public class MainActivity extends AppCompatActivity {
     final public static int K_CozinheiraMin = 1;
 
     //BAR
-    final public static int K_BRONZE = 20;
-    final public static int K_PRATA = 24;
-    final public static int K_OURO = 28;
     final public static int K_SEMALCOOL = 16;
     final public static double K_PERSONAL = 4.5;
     final public static int K_PACKSEMALCOOL = 15;
-    final public static int K_DRINKPP = 2;
     final public static int K_BARMAN = 150;
     final public static double K_CUSTOBRONZE = 20;
     final public static double K_CUSTOPRATA = 24;
     final public static double K_CUSTOOURO = 28;
-    final public static double K_CERVEJA1 = 9.911;
-    final public static double K_CERVEJA2 = 11.339;
-    final public static double K_CERVEJA3 = 14.161;
-    final public static double K_CHOPP = 12.113;
 
-    //Financeiro
+
+    //FINANCEIRO
     final public static int K_FUTURA = 25;
     final public static int K_PERIODO = 12;
     final public static double K_IPCA = 9;
 
-    //Formatações de Data
+    //FORMATAÇÕES DE DATA
     SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
+    Date dataHoraAtual = new Date();
+    private long nm; //Numero de meses até o evento
+    int ds;  //Dia da Semana do Evento (0-6)
 
     DatePickerDialog dpd;
     Calendar c;
     ImageView btnCal;
-    public TextView textoData, dataExtenso , meses, valorEstrutura, valorBronze, valorPrata, valorOuro, valorMineira, valorCoquetel, valorChurrasco, valorBoteco, valorBar, valorCabine ;
+    public TextView textoData, dataExtenso , meses, valorEstrutura, valorBronze, valorPrata, valorOuro, valorMineira, valorCoquetel, valorChurrasco, valorBoteco, valorBar, valorCabine, valorProposta;
     EditText numConvidados;
     Date dt;
     String dataEvento;
-    public CheckBox cerveja, chopp, bartender, cerimonia;
+    public CheckBox cerveja, chopp, bartender, cerimonia, cabine;
     Spinner spinner, spinnerPackBar;
+    Evento evento;
 
-    public TextView lblBronze, lblPrata;
+    double valorIPCA = 0;
 
+    //VARIÁVEIS PARA CÁLCULO DA PROPOSTA TOTAL
+    double[] cardapioPreco = new double[7];
+    double vEspacoFinal =0;
+    double valoroBar = 0;
+    double vlrCabine =0;
 
-    private long nm; //Numero de meses até o evento
+    public TextView lblBronze, lblPrata, lblOuro, lblChurrasco, lblMineira, lblCoquetel, lblBoteco;
+
+    public void iniciarVariaveis(){
+        textoData = (TextView) findViewById(R.id.textDataEvento);
+        btnCal = (ImageView) findViewById(R.id.btnCalendar);
+        dataExtenso = (TextView) findViewById(R.id.textDataExtenso);
+        numConvidados = (EditText) findViewById(R.id.editTextConvidados);
+        meses = (TextView) findViewById(R.id.editTextMeses);
+        valorProposta = (TextView) findViewById(R.id.textValorTotalProposta);
+
+        valorEstrutura = (TextView) findViewById(R.id.editTextValorEstrutura);
+        valorBronze = (TextView) findViewById(R.id.editTextValorBronze);
+        valorPrata = (TextView) findViewById(R.id.editTextValorPrata);
+        valorOuro = (TextView) findViewById(R.id.editTextValorOuro);
+        valorBoteco = (TextView) findViewById(R.id.editTextValorBoteco);
+        valorChurrasco = (TextView) findViewById(R.id.editTextValorChurrasco);
+        valorCoquetel = (TextView) findViewById(R.id.editTextValorCoquetel);
+        valorMineira = (TextView) findViewById(R.id.editTextValorMineira);
+
+        cerveja = (CheckBox) findViewById(R.id.checkBoxCerveja);
+        chopp = (CheckBox) findViewById(R.id.checkBoxChopp);
+        bartender = (CheckBox) findViewById(R.id.checkBoxBartender);
+        cerimonia = (CheckBox) findViewById(R.id.checkBoxCerimonia);
+        cabine = (CheckBox) findViewById(R.id.checkBoxCabine);
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapterCerveja = ArrayAdapter.createFromResource(this, R.array.tiposCerveja, android.R.layout.simple_spinner_item);
+        popularComboBox(spinner,adapterCerveja);
+
+        spinnerPackBar = findViewById(R.id.spinnerBar);
+        ArrayAdapter<CharSequence> adapterPackBar = ArrayAdapter.createFromResource(this,R.array.packsBar, android.R.layout.simple_spinner_item);
+        popularComboBox(spinnerPackBar,adapterPackBar);
+
+        valorBar = (TextView) findViewById(R.id.editTextValorBar);
+        valorCabine = (TextView) findViewById(R.id.editTextValorCabine);
+
+        lblBronze = (TextView) findViewById(R.id.textBronze);
+        lblPrata = (TextView) findViewById(R.id.textPrata);
+        lblOuro = (TextView) findViewById(R.id.textOuro);
+        lblChurrasco = (TextView) findViewById(R.id.textChurrasco);
+        lblMineira = (TextView) findViewById(R.id.textMineira);
+        lblBoteco = (TextView) findViewById(R.id.textBoteco);
+        lblCoquetel = (TextView) findViewById(R.id.textCoquetel);
+    }
 
     public void limparCampos(){
         textoData.setText("");
@@ -144,32 +188,75 @@ public class MainActivity extends AppCompatActivity {
         valorBoteco.setText("");
         valorBar.setText("");
         valorCabine.setText("");
+        valorProposta.setText("");
+        resetCampos();
+        cerveja.setChecked(false);
+        chopp.setChecked(false);
+        bartender.setChecked(false);
+        cerimonia.setChecked(false);
+        cabine.setChecked(false);
+        spinnerPackBar.setEnabled(false);
+        spinner.setEnabled(false);
     }
 
     public void btnLimparCampos (View view){
         limparCampos();
     }
 
-    public static String NomeDoMes(int i, int tipo) {
-        String mes[] = {"jan.", "fev.", "mar.", "abr.", "maio", "jun.", "jul.", "ago.", "set.", "out.", "nov.", "dez."};
-        if (tipo == 0) {
-            return (mes[i - 1]);
-        } else {
-            return (mes[i - 1].substring(0, 3));
-        }
+    public void resetCampos(){
+        valorBronze.setTypeface(null, Typeface.NORMAL);
+        lblBronze.setTypeface(null, Typeface.NORMAL);
+        lblBronze.setTextColor(getResources().getColor(R.color.black));
+        valorBronze.setTextColor(getResources().getColor(R.color.cinzaEscuro));
+
+        valorPrata.setTypeface(null, Typeface.NORMAL);
+        lblPrata.setTypeface(null, Typeface.NORMAL);
+        lblPrata.setTextColor(getResources().getColor(R.color.black));
+        valorPrata.setTextColor(getResources().getColor(R.color.cinzaEscuro));
+
+
+        valorOuro.setTypeface(null, Typeface.NORMAL);
+        lblOuro.setTypeface(null, Typeface.NORMAL);
+        lblOuro.setTextColor(getResources().getColor(R.color.black));
+        valorOuro.setTextColor(getResources().getColor(R.color.cinzaEscuro));
+
+
+        valorChurrasco.setTypeface(null, Typeface.NORMAL);
+        lblChurrasco.setTypeface(null, Typeface.NORMAL);
+        lblChurrasco.setTextColor(getResources().getColor(R.color.black));
+        valorOuro.setTextColor(getResources().getColor(R.color.cinzaEscuro));
+
+
+        valorMineira.setTypeface(null, Typeface.NORMAL);
+        lblMineira.setTypeface(null, Typeface.NORMAL);
+        lblMineira.setTextColor(getResources().getColor(R.color.black));
+        valorMineira.setTextColor(getResources().getColor(R.color.cinzaEscuro));
+
+
+        valorCoquetel.setTypeface(null, Typeface.NORMAL);
+        lblCoquetel.setTypeface(null, Typeface.NORMAL);
+        lblCoquetel.setTextColor(getResources().getColor(R.color.black));
+        valorCoquetel.setTextColor(getResources().getColor(R.color.cinzaEscuro));
+
+
+        valorBoteco.setTypeface(null, Typeface.NORMAL);
+        lblBoteco.setTypeface(null, Typeface.NORMAL);
+        lblBoteco.setTextColor(getResources().getColor(R.color.black));
+        valorBoteco.setTextColor(getResources().getColor(R.color.cinzaEscuro));
+
+        valorProposta.setText("");
     }
 
-    public static String DiaDaSemana(int i, int tipo) {
-        String diasem[] = {"domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"};
-        if (tipo == 0) {
-            return (diasem[i - 1]);
-        } else {
-            return (diasem[i - 1].substring(0, 3));
+    public void lblClick (TextView x , int posicao ){
+        try{
+            resetCampos();
+            valorProposta.setText(evento.CalcularProposta(vEspacoFinal,cardapioPreco,vlrCabine,valoroBar,posicao));
+            metodos.EditarTextView(x);
+            metodos.EditarTextView(x);
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(),"Nenhum valor para calcular!", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-    int ds;  //Dia da Semana do Evento (0-6)
 
     public String dataPorExtenso(String data) throws ParseException {
         dt = formatoData.parse(data);
@@ -180,11 +267,11 @@ public class MainActivity extends AppCompatActivity {
         Calendar date = new GregorianCalendar(a, m - 1, d);
         ds = date.get(Calendar.DAY_OF_WEEK);
 
-        return (DiaDaSemana(ds, 0) + ", " + d + " de " + NomeDoMes(m, 0) + " de " + a);
+        return (metodos.DiaDaSemana(ds, 0) + ", " + d + " de " + metodos.NomeDoMes(m, 0) + " de " + a);
     }
 
-    //Validar se campo de data e convidados estão preenchidos
     public boolean validarCampos(){
+        //Validar se campo de data e convidados estão preenchidos
         boolean camposValidados = true;
         String textConvidados = numConvidados.getText().toString();
 
@@ -194,8 +281,8 @@ public class MainActivity extends AppCompatActivity {
         return camposValidados;
     }
 
-    //Validar se número de meses é menor que FUTURA
     public boolean validarMeses(String data){
+        //Validar se número de meses é menor que FUTURA
         boolean mesesValidados = true;
 
         if (data.equals("")){
@@ -211,157 +298,110 @@ public class MainActivity extends AppCompatActivity {
         return mesesValidados;
     }
 
-    //Ação do botão confirmar
-    public void botaoConfirmar (View view){
-        boolean camposValidados = validarCampos();
+    public void calculaTudo(){
+        double nc = Integer.parseInt(numConvidados.getText().toString()); //Numero Convidados
+        double meses = (double) nm;
 
-        if(camposValidados){
-            double nc = Integer.parseInt(numConvidados.getText().toString()); //Numero Convidados
-            double meses = (double) nm;
+        evento = new Evento(nc,meses);
+        double valorMargemContr = evento.fMargemContr();
+        double valorLimpeza = faxina;
+        double valorSupervisão = K_SUPERVISAO;
+        double valorAjudante = K_AJUDANTE;
+        double numGarcom = evento.fNumeroGarcom();
+        double valorGarcom = numGarcom * K_GARCOM;
+        int valorKids = K_KIDS;
 
-            Evento evento = new Evento(nc,meses);
-            double valorIPCA = evento.fIPCA();
-            double valorMargemContr = evento.fMargemContr();
-            double valorLimpeza = faxina;
-            double valorSupervisão = K_SUPERVISAO;
-            double valorAjudante = K_AJUDANTE;
-            double numGarcom = evento.fNumeroGarcom();
-            double valorGarcom = numGarcom * K_GARCOM;
-            int valorKids = K_KIDS;
+        double valorTotalFixo = evento.fTotalFixo();
 
-            double valorTotalFixo = evento.fTotalFixo();
+        double valorCustoEspacoMO = valorSupervisão + valorGarcom + valorLimpeza + valorAjudante + valorKids;
+        double valorCustoEspaco =  valorTotalFixo + valorCustoEspacoMO;
 
-            double valorCustoEspacoMO = valorSupervisão + valorGarcom + valorLimpeza + valorAjudante + valorKids;
-            double valorCustoEspaco =  valorTotalFixo + valorCustoEspacoMO;
+        double valorTotalCozinha = evento.fCustoCozinha();
 
+        double valorRetirada = evento.fValorRetirada();
+        double valorCustoCervejaChopp = evento.fCustoCervejaChopp(cerveja,chopp,spinner);
+        double valorCustoVariavel = evento.fCustoVariavel();
+        double valorCerimonia = evento.fCustoCerimonia(cerimonia);
 
-            double valorTotalCozinha = evento.fCustoCozinha();
-
-            double valorRetirada = evento.fValorRetirada();
-            double valorCustoCervejaChopp = evento.fCustoCervejaChopp(cerveja,chopp,spinner);
-            double valorCustoVariavel = evento.fCustoVariavel();
-            double valorCerimonia = evento.fCustoCerimonia(cerimonia);
+        valoroBar = (metodos.ArredondaCentena(evento.fCustoBar(bartender, spinnerPackBar)/(1-valorIPCA)));
+        double[] cardapioCusto = {custoCardapioBronze,custoCardapioPrata,custoCardapioOuro,custoCardapioChurrasco,custoCardapioMineira,custoCardapioCoquetel,custoCardapioBoteco};
+        double valorPPFinal;
 
 
-            double[] cardapioPreco = {custoCardapioBronze,custoCardapioPrata,custoCardapioOuro,custoCardapioChurrasco,custoCardapioMineira,custoCardapioCoquetel,custoCardapioBoteco};
+        //Calcula preço Por Pessoa de Todos os Cardapios
+        for (int i = 0; i<cardapioCusto.length; i++){
+            double valorCustoBuffet = (valorCustoVariavel + valorTotalCozinha + (cardapioCusto[i] + valorCustoCervejaChopp) * nc)/(1-valorMargemContr);
+            //double valorEspacoInicial = valorCustoEspaco / margc;
+            double valorBuffetInicial = valorCustoBuffet + valorRetirada;
+            double vppInicial = valorBuffetInicial / nc;
+            double valorEspaco =0;
+            double vEspaco = 0;
 
-            double vEspacoFinal =0;
-            double valorPPFinal;
+            valorIPCA = evento.fIPCA();
 
-            double valoroBar = (metodos.ArredondaCentena(evento.fCustoBar(bartender, spinnerPackBar)/(1-valorIPCA)));
-
-            //Calcula preço Por Pessoa de Todos os Cardapios
-            for (int i = 0; i<cardapioPreco.length; i++){
-                double valorCustoBuffet = (valorCustoVariavel + valorTotalCozinha + (cardapioPreco[i] + valorCustoCervejaChopp) * nc)/(1-valorMargemContr);
-                //double valorEspacoInicial = valorCustoEspaco / margc;
-                double valorBuffetInicial = valorCustoBuffet + valorRetirada;
-                double vppInicial = valorBuffetInicial / nc;
-                double valorEspaco =0;
-
-                double vpp_inc;
-                if(meses>0){
-                    vpp_inc = (vppInicial / (1-valorIPCA)) - vppInicial;
-                }else{
-                    vpp_inc = 0;
-                }
-                double desconto = evento.descontoDiaSemana(ds);
+            double vpp_inc;
+            if(meses>0){
+                vpp_inc = (vppInicial / (1-valorIPCA)) - vppInicial;
+            }else{
+                vpp_inc = 0;
+            }
+            double desconto = evento.descontoDiaSemana(ds);
 
 
-                if(nc >= 150){
-                    valorEspaco = K_ESPACO;
-                }else if(nc>=100){
-                    valorEspaco = 5800;
-                }else if(nc<100){
-                    valorEspaco =5000;
-                }
-
-                vEspacoFinal = Math.round(valorEspaco * desconto); //Considerando Desconto de Dia
-                double vpp_dec = (vEspacoFinal - valorCustoEspaco) / nc;
-
-                valorPPFinal = Math.ceil(vppInicial + vpp_inc - vpp_dec);
-
-                switch (i){
-                    case 0:
-                        valorBronze.setText("R$" + Double.toString(valorPPFinal) + "0");
-                        break;
-                    case 1:
-                        valorPrata.setText("R$" + Double.toString(valorPPFinal) + "0");
-                        break;
-                    case 2:
-                        valorOuro.setText("R$" + Double.toString(valorPPFinal) + "0");
-                        break;
-                    case 3:
-                        valorChurrasco.setText("R$" + Double.toString(valorPPFinal) + "0");
-                        break;
-                    case 4:
-                        valorMineira.setText("R$" + Double.toString(valorPPFinal) + "0");
-                        break;
-                    case 5:
-                        valorCoquetel.setText("R$" + Double.toString(valorPPFinal) + "0");
-                        break;
-                    case 6:
-                        valorBoteco.setText("R$" + Double.toString(valorPPFinal) + "0");
-                        break;
-                }
+            if(nc >= 150){
+                valorEspaco = K_ESPACO;
+            }else if(nc>=100){
+                valorEspaco = 5800;
+            }else if(nc<100){
+                valorEspaco =5000;
             }
 
-            valorEstrutura.setText("R$" + Double.toString(vEspacoFinal + valorCerimonia) + "0"); //Valor Estrutura
-            valorBar.setText("R$" + valoroBar + "0"); //Valor Bar
-            //Valor Cabine
+            vEspaco = Math.round(valorEspaco * desconto); //Considerando Desconto de Dia
+            double vpp_dec = (vEspaco - valorCustoEspaco) / nc;
 
-        }else{
-            Toast.makeText(getApplicationContext(), "Preencher Campos!", Toast.LENGTH_SHORT).show();
+            valorPPFinal = Math.ceil(vppInicial + vpp_inc - vpp_dec);
+
+            vEspacoFinal = vEspaco + valorCerimonia;
+            cardapioPreco[i] = valorPPFinal;
+            switch (i){
+                case 0:
+                    valorBronze.setText("R$" + Double.toString(valorPPFinal) + "0");
+                    break;
+                case 1:
+                    valorPrata.setText("R$" + Double.toString(valorPPFinal) + "0");
+                    break;
+                case 2:
+                    valorOuro.setText("R$" + Double.toString(valorPPFinal) + "0");
+                    break;
+                case 3:
+                    valorChurrasco.setText("R$" + Double.toString(valorPPFinal) + "0");
+                    break;
+                case 4:
+                    valorMineira.setText("R$" + Double.toString(valorPPFinal) + "0");
+                    break;
+                case 5:
+                    valorCoquetel.setText("R$" + Double.toString(valorPPFinal) + "0");
+                    break;
+                case 6:
+                    valorBoteco.setText("R$" + Double.toString(valorPPFinal) + "0");
+                    break;
+            }
         }
+        valorEstrutura.setText("R$" + Double.toString(vEspacoFinal) + "0"); //Valor Estrutura
+        valorBar.setText("R$" + valoroBar + "0"); //Valor Bar
+        //Valor Cabine
+
     }
 
+    public void popularComboBox (Spinner x, ArrayAdapter y){
+        y.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        x.setAdapter(y);
+        x.setEnabled(false);
+    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        //Iniciar variáveis
-        textoData = (TextView) findViewById(R.id.textDataEvento);
-        btnCal = (ImageView) findViewById(R.id.btnCalendar);
-        dataExtenso = (TextView) findViewById(R.id.textDataExtenso);
-        numConvidados = (EditText) findViewById(R.id.editTextConvidados);
-        meses = (TextView) findViewById(R.id.editTextMeses);
-        valorEstrutura = (TextView) findViewById(R.id.editTextValorEstrutura);
-        valorBronze = (TextView) findViewById(R.id.editTextValorBronze);
-        valorPrata = (TextView) findViewById(R.id.editTextValorPrata);
-        valorOuro = (TextView) findViewById(R.id.editTextValorOuro);
-        valorBoteco = (TextView) findViewById(R.id.editTextValorBoteco);
-        valorChurrasco = (TextView) findViewById(R.id.editTextValorChurrasco);
-        valorCoquetel = (TextView) findViewById(R.id.editTextValorCoquetel);
-        valorMineira = (TextView) findViewById(R.id.editTextValorMineira);
-        cerveja = (CheckBox) findViewById(R.id.checkBoxCerveja);
-        chopp = (CheckBox) findViewById(R.id.checkBoxChopp);
-        bartender = (CheckBox) findViewById(R.id.checkBoxBartender);
-        cerimonia = (CheckBox) findViewById(R.id.checkBoxCerimonia);
-        valorBar = (TextView) findViewById(R.id.editTextValorBar);
-        valorCabine = (TextView) findViewById(R.id.editTextValorCabine);
-
-        lblBronze = (TextView) findViewById(R.id.textBronze);
-        lblPrata = (TextView) findViewById(R.id.textPrata);
-
-        //Popular ComboBox(Spinner) Cerveja
-        spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.tiposCerveja, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setEnabled(false);
-
-        //Popular ComboBox(Spinner) Pacotes Bar
-        spinnerPackBar = findViewById(R.id.spinnerBar);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
-                R.array.packsBar, android.R.layout.simple_spinner_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPackBar.setAdapter(adapter1);
-        spinnerPackBar.setEnabled(false);
-
-        //Listener para botão do calendário
+    public void definirListeners(){
         btnCal.setOnClickListener(new View.OnClickListener() {
+            //Listener para botão do calendário
             @Override
             public void onClick(View view) {
 
@@ -391,40 +431,38 @@ public class MainActivity extends AppCompatActivity {
         });
 
         textoData.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void afterTextChanged(Editable editable) {
-                dataEvento = textoData.getText().toString();
-                try {
-                    Date date = formatoData.parse(dataEvento);
+                                             @Override
+                                             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                                             @Override
+                                             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                                             @Override
+                                             public void afterTextChanged(Editable editable) {
+                                                 dataEvento = textoData.getText().toString();
+                                                 try {
+                                                     Date date = formatoData.parse(dataEvento);
 
-                    if(!validarMeses(dataEvento)){
-                        dataExtenso.setText("");
-                        meses.setText("");
-                        textoData.setText("");
-                        throw new Exception("Número de meses acima de " + K_FUTURA + "!");
-                    }else if (date.before(dataHoraAtual)){
-                        dataExtenso.setText("");
-                        meses.setText("");
-                        textoData.setText("");
-                        throw new Exception("Data já passou!");
-                    }else{
-                        dataExtenso.setText(dataPorExtenso(dataEvento));
-                        meses.setText(String.valueOf(nm));
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                } catch (Exception e){
-                    Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-        );
+                                                     if(!validarMeses(dataEvento)){
+                                                         dataExtenso.setText("");
+                                                         meses.setText("");
+                                                         textoData.setText("");
+                                                         throw new Exception("Número de meses acima de " + K_FUTURA + "!");
+                                                     }else if (date.before(dataHoraAtual)){
+                                                         dataExtenso.setText("");
+                                                         meses.setText("");
+                                                         textoData.setText("");
+                                                         throw new Exception("Data já passou!");
+                                                     }else{
+                                                         dataExtenso.setText(dataPorExtenso(dataEvento));
+                                                         meses.setText(String.valueOf(nm));
+                                                     }
+                                                 } catch (ParseException e) {
+                                                     e.printStackTrace();
+                                                 } catch (Exception e){
+                                                     Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                 }
+                                             }
+                                         });
 
-        //Listener Opção Cerveja
         cerveja.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -438,7 +476,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Listener Opção Chopp
         chopp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -447,12 +484,12 @@ public class MainActivity extends AppCompatActivity {
                     cerveja.setEnabled(false);
                 }else{
                     cerveja.setEnabled(true);
-                    spinner.setEnabled(true);
+                    spinner.setEnabled(false );
                 }
+
             }
         });
 
-        //Listener Opção Bar
         bartender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -464,10 +501,126 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        lblBronze.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lblClick(valorBronze,0);
+            }
+        });
 
+        lblPrata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lblClick(valorPrata,1);
 
+            }
+        });
 
+        lblOuro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lblClick(valorOuro,2);
+            }
+        });
 
+        lblChurrasco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lblClick(valorChurrasco,3);
+            }
+        });
+
+        lblMineira.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lblClick(valorMineira,4);
+            }
+        });
+
+        lblCoquetel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lblClick(valorCoquetel,5);
+            }
+        });
+
+        lblBoteco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lblClick(valorBoteco,6);
+            }
+        });
+
+        chopp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(!valorBronze.getText().toString().equals("")){
+                    calculaTudo();
+                }
+            }
+        });
+
+        bartender.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(!valorBronze.getText().toString().equals("")){
+                    calculaTudo();
+                }
+            }
+        });
+
+        cerveja.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(!valorBronze.getText().toString().equals("")){
+                    calculaTudo();
+                }
+            }
+        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(!valorBronze.getText().toString().equals("")){
+                    calculaTudo();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        spinnerPackBar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(!valorBronze.getText().toString().equals("")){
+                    calculaTudo();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    public void botaoConfirmar (View view){
+        //Ação do botão confirmar
+        boolean camposValidados = validarCampos();
+        if(camposValidados){
+            calculaTudo();
+        }else{
+            Toast.makeText(getApplicationContext(), "Preencher Campos!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        iniciarVariaveis();
+        definirListeners();
     }
 }
 

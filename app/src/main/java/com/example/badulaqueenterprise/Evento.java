@@ -3,6 +3,7 @@ package com.example.badulaqueenterprise;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -200,7 +201,7 @@ public class Evento {
 
     public double descontoDiaSemana (int dia){
         double desconto = 0.8;
-        String diaEvento = MainActivity.DiaDaSemana(dia, 0);
+        String diaEvento = metodos.DiaDaSemana(dia, 0);
 
         switch (diaEvento){
             case "sábado":
@@ -214,6 +215,13 @@ public class Evento {
                 break;
         }
         return desconto;
+    }
+    public String CalcularProposta(double valorEstrutura, double[] valorCardapio, double valorCabine, double valorBar, int posicao){
+        String SvalorProposta = "";
+        double valorProposta = (valorCardapio[posicao]*NumConvidados) + valorEstrutura + valorBar + valorCabine;
+        SvalorProposta = "R$" + Double.toString(valorProposta) + "0";
+
+        return SvalorProposta;
     }
 
 

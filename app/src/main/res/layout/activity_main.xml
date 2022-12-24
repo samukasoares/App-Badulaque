@@ -115,10 +115,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="-25dp"
+        android:layout_marginBottom="10dp"
         android:text="Valor Proposta:"
         android:textColor="#000000"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnConfirma"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBoxCerimonia" />
 
@@ -139,7 +141,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:text="Cardápios"
+        android:text="CARDÁPIOS"
         android:textAlignment="textStart"
         android:textColor="#000000"
         android:textSize="20sp"
@@ -247,6 +249,7 @@
         android:id="@+id/checkBoxCabine"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-15dp"
         android:text="Cabine/Plataforma"
         android:textColor="#000000"
         android:textSize="15sp"
@@ -257,6 +260,7 @@
         android:id="@+id/checkBoxBartender"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-15dp"
         android:text="Bartender"
         android:textColor="#000000"
         android:textSize="15sp"
@@ -267,6 +271,7 @@
         android:id="@+id/checkBoxCerimonia"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-15dp"
         android:text="Cerimônia"
         android:textColor="#000000"
         android:textSize="15sp"
@@ -277,6 +282,7 @@
         android:id="@+id/checkBoxChopp"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-15dp"
         android:text="Chopp"
         android:textColor="#000000"
         android:textSize="15sp"
@@ -298,7 +304,7 @@
         android:id="@+id/spinnerBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="75dp"
         android:clickable="true"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
@@ -308,15 +314,16 @@
 
     <Button
         android:id="@+id/btnConfirma"
-        android:layout_width="100sp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:onClick="botaoConfirmar"
         android:text="CONFIRMA"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/editTextValorEstrutura"
@@ -471,11 +478,10 @@
         android:id="@+id/btnZerarOpcoes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="5dp"
         android:onClick="btnLimparCampos"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnConfirma"
+        app:layout_constraintBottom_toTopOf="@+id/btnConfirma"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/zerar" />
 
     <TextView
@@ -489,5 +495,22 @@
         android:textSize="22sp"
         app:layout_constraintStart_toEndOf="@+id/textData"
         app:layout_constraintTop_toBottomOf="@+id/textCabine" />
+
+    <TextView
+        android:id="@+id/textValorTotalProposta"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:enabled="false"
+        android:textAlignment="center"
+        android:textColor="@color/vermelho"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnConfirma"
+        app:layout_constraintEnd_toStartOf="@+id/btnZerarOpcoes"
+        app:layout_constraintStart_toEndOf="@+id/editTextValorProposta"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
