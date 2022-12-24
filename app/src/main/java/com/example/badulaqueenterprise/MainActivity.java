@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
     double vEspacoFinal =0;
     double valoroBar = 0;
     double vlrCabine =0;
+    double valorFinalProposta;
 
     public TextView lblBronze, lblPrata, lblOuro, lblChurrasco, lblMineira, lblCoquetel, lblBoteco;
 
@@ -188,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
         valorBoteco.setText("");
         valorBar.setText("");
         valorCabine.setText("");
+
         valorProposta.setText("");
         resetCampos();
         cerveja.setChecked(false);
@@ -247,12 +249,15 @@ public class MainActivity extends AppCompatActivity {
         valorProposta.setText("");
     }
 
-    public void lblClick (TextView x , int posicao ){
+    public void lblClick (TextView x ,TextView y, int posicao ){
         try{
             resetCampos();
-            valorProposta.setText(evento.CalcularProposta(vEspacoFinal,cardapioPreco,vlrCabine,valoroBar,posicao));
-            metodos.EditarTextView(x);
-            metodos.EditarTextView(x);
+            if(!valorBronze.getText().toString().equals("")){
+                valorProposta.setText(evento.CalcularProposta(vEspacoFinal,cardapioPreco,vlrCabine,valoroBar,posicao));
+                metodos.EditarTextView(x);
+                metodos.EditarTextView(y);
+            }
+
         }catch(Exception e){
             Toast.makeText(getApplicationContext(),"Nenhum valor para calcular!", Toast.LENGTH_SHORT).show();
         }
@@ -504,14 +509,14 @@ public class MainActivity extends AppCompatActivity {
         lblBronze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lblClick(valorBronze,0);
+                lblClick(valorBronze, lblBronze,0);
             }
         });
 
         lblPrata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lblClick(valorPrata,1);
+                lblClick(valorPrata,lblPrata,1);
 
             }
         });
@@ -519,35 +524,35 @@ public class MainActivity extends AppCompatActivity {
         lblOuro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lblClick(valorOuro,2);
+                lblClick(valorOuro,lblOuro,2);
             }
         });
 
         lblChurrasco.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lblClick(valorChurrasco,3);
+                lblClick(valorChurrasco,lblChurrasco,3);
             }
         });
 
         lblMineira.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lblClick(valorMineira,4);
+                lblClick(valorMineira,lblMineira,4);
             }
         });
 
         lblCoquetel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lblClick(valorCoquetel,5);
+                lblClick(valorCoquetel,lblCoquetel,5);
             }
         });
 
         lblBoteco.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lblClick(valorBoteco,6);
+                lblClick(valorBoteco,lblBoteco,6);
             }
         });
 
